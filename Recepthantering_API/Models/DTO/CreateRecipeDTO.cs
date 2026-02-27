@@ -21,6 +21,9 @@ namespace Recepthantering_API.Models
         public int Servings { get; set; }
 
         [Required]
+        public string Difficulty { get; set; } = string.Empty; // Easy, Medium, Hard
+
+        [Required]
         public List<CreateIngredientDTO> Ingredients { get; set; }
 
         [Required]

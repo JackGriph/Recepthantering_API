@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Recepthantering_API.Models;
-using Recepthantering_API.Models.DTOs;
 using Recepthantering_API.Services;
 
 namespace Recepthantering_API.Controllers
@@ -48,7 +47,7 @@ namespace Recepthantering_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Recipe>> Create([FromBody] CreateRecipeDto dto)
+        public async Task<ActionResult<Recipe>> Create([FromBody] CreateRecipeDTO dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -58,7 +57,7 @@ namespace Recepthantering_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Recipe>> Update(int id, [FromBody] CreateRecipeDto dto)
+        public async Task<ActionResult<Recipe>> Update(int id, [FromBody] CreateRecipeDTO dto)  
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
