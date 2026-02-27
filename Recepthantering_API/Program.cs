@@ -1,4 +1,7 @@
 
+using Recepthantering_API.Repositories;
+using Recepthantering_API.Services;
+
 namespace Recepthantering_API
 {
     public class Program
@@ -8,6 +11,8 @@ namespace Recepthantering_API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddSingleton<IRecipeRepository, RecipeRepository>();
+            builder.Services.AddScoped<IRecipeService, RecipeService>();
 
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
