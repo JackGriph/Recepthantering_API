@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Recepthantering.Test/Recepthantering.Test.csproj" />
   <Project Path="Recepthantering_API/Recepthantering_API.csproj" />
 </Solution>
