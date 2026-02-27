@@ -1,36 +1,36 @@
 # Recepthantering API
 
-Ett REST API byggt med ASP.NET Core 10 for hantering av recept.
+Ett REST API byggt med ASP.NET Core 10 för hantering av recept.
 
 ## Arkitektur
 
-Projektet foljer ett lagerbaserat monster med tydlig separation:
+Projektet följer ett lagerbaserat mönster med tydlig separation:
 
 ```
-Controller  ->  Service  ->  Repository  ->  Datakalla
-  (HTTP)      (Logik)      (Dataatkomst)
+Controller  ->  Service  ->  Repository  ->  Datakälla
+  (HTTP)      (Logik)      (Dataåtkomst)
 ```
 
 - **Controllers** - Tunna, hanterar bara HTTP request/response
-- **Services** - Affarlogik och mappning (DTO -> Entity)
-- **Repositories** - Dataatkomst via interface (for narlaget in-memory)
+- **Services** - Affärslogik och mappning (DTO -> Entity)
+- **Repositories** - Dataåtkomst via interface (för närläget in-memory)
 - **Models** - Entiteter och DTOs med validering
 
 ## API-endpoints
 
 | Metod | Route | Beskrivning |
 |-------|-------|-------------|
-| GET | `/api/recipes` | Hamta alla recept |
-| GET | `/api/recipes/{id}` | Hamta specifikt recept (detaljvy) |
-| GET | `/api/recipes/search?q={term}` | Sok recept pa namn/beskrivning |
-| GET | `/api/recipes/difficulty/{level}` | Filtrera pa svarighetsgrad |
+| GET | `/api/recipes` | Hämta alla recept |
+| GET | `/api/recipes/{id}` | Hämta specifikt recept (detaljvy) |
+| GET | `/api/recipes/search?q={term}` | Sök recept på namn/beskrivning |
+| GET | `/api/recipes/difficulty/{level}` | Filtrera på svårighetsgrad |
 | POST | `/api/recipes` | Skapa nytt recept |
 | PUT | `/api/recipes/{id}` | Uppdatera recept |
 | DELETE | `/api/recipes/{id}` | Ta bort recept |
 
-## Kom igang
+## Kom igång
 
-### Forutsattningar
+### Förutsättningar
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 
@@ -41,11 +41,11 @@ cd Recepthantering_API
 dotnet run
 ```
 
-API:et startar pa `http://localhost:5233`
+API:et startar på `http://localhost:5233`
 
 ### Swagger
 
-Oppna `http://localhost:5233/swagger` i webblasaren for att testa endpoints interaktivt.
+Öppna `http://localhost:5233/swagger` i webbläsaren för att testa endpoints interaktivt.
 
 ## Projektstruktur
 
@@ -87,14 +87,14 @@ POST /api/recipes
   "servings": 4,
   "difficulty": "Easy",
   "ingredients": [
-    { "name": "Mjol", "quantity": 3, "unit": "dl" },
-    { "name": "Mjolk", "quantity": 6, "unit": "dl" },
-    { "name": "Agg", "quantity": 3, "unit": "st" }
+    { "name": "Mjöl", "quantity": 3, "unit": "dl" },
+    { "name": "Mjölk", "quantity": 6, "unit": "dl" },
+    { "name": "Ägg", "quantity": 3, "unit": "st" }
   ],
   "instructions": [
-    "Blanda mjol och halva mjolken till en slat smet",
-    "Tillsatt resten av mjolken och aggen",
-    "Stek i smor pa medelhog varme"
+    "Blanda mjöl och halva mjölken till en slät smet",
+    "Tillsätt resten av mjölken och äggen",
+    "Stek i smör på medelhög värme"
   ]
 }
 ```
@@ -102,6 +102,6 @@ POST /api/recipes
 ## Teknikstack
 
 - ASP.NET Core 10
-- Entity Framework Core 10 (forberett)
+- Entity Framework Core 10 (förberett)
 - xUnit (tester)
 - Swagger / OpenAPI
