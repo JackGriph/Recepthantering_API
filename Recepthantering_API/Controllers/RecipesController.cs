@@ -79,23 +79,7 @@ namespace Recepthantering_API.Controllers
         [HttpPost]
         public async Task<ActionResult<RecipeDTO>> Create(CreateRecipeDTO dto)
         {
-            var recipe = new Recipe
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                PrepTimeMinutes = dto.PrepTimeMinutes,
-                CookTimeMinutes = dto.CookTimeMinutes,
-                Servings = dto.Servings,
-                Ingredients = dto.Ingredients.Select(i => new Ingredient
-                {
-                    Name = i.Name,
-                    Quantity = i.Quantity,
-                    Unit = i.Unit
-                }).ToList(),
-                Instructions = dto.Instructions
-            };
-
-            var created = await _recipeService.CreateAsync(recipe);
+            var created = await _recipeService.CreateAsync(dto);
 
             var responseDto = new RecipeDTO
             {
@@ -108,23 +92,7 @@ namespace Recepthantering_API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<RecipeDTO>> Update(int id, CreateRecipeDTO dto)
         {
-            var recipe = new Recipe
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                PrepTimeMinutes = dto.PrepTimeMinutes,
-                CookTimeMinutes = dto.CookTimeMinutes,
-                Servings = dto.Servings,
-                Ingredients = dto.Ingredients.Select(i => new Ingredient
-                {
-                    Name = i.Name,
-                    Quantity = i.Quantity,
-                    Unit = i.Unit
-                }).ToList(),
-                Instructions = dto.Instructions
-            };
-
-            var updated = await _recipeService.UpdateAsync(id, recipe);
+            var updated = await _recipeService.UpdateAsync(id, dto);
             if (updated is null)
                 return NotFound();
 
