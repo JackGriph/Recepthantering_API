@@ -1,6 +1,6 @@
-﻿namespace Recepthantering_API.Models
+namespace Recepthantering_API.Models
 {
-    public class Recipe
+    public class RecipeDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
