@@ -1,16 +1,30 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Recepthantering_API.Models
 {
-    public class RecipeDTO
+    public class CreateRecipeDTO
     {
-        public int Id { get; set; }
+        [Required]
+        [StringLength(100, MinimumLength = 3)]
         public string Name { get; set; }
+
+        [StringLength(500)]
         public string Description { get; set; }
+
+        [Range(1, 480)]
         public int PrepTimeMinutes { get; set; }
+
+        [Range(1, 480)]
         public int CookTimeMinutes { get; set; }
+        
+        [Range(1, 100)]
         public int Servings { get; set; }
-        public string Difficulty { get; set; } // Easy, Medium, Hard
-        public List<Ingredient> Ingredients { get; set; }
+
+        [Required]
+        public List<CreateIngredientDTO> Ingredients { get; set; }
+
+        [Required]
+        [MinLength(1)]
         public List<string> Instructions { get; set; }
-        public DateTime CreatedAt { get; set; }
     }
 }
