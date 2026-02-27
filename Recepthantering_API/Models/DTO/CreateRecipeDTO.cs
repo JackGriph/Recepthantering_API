@@ -6,10 +6,10 @@ namespace Recepthantering_API.Models
     {
         [Required]
         [StringLength(100, MinimumLength = 3)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [StringLength(500)]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         [Range(1, 480)]
         public int PrepTimeMinutes { get; set; }
