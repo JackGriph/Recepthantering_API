@@ -1,48 +1,47 @@
-﻿using Recepthantering_API.Models;
+using Microsoft.EntityFrameworkCore;
+using Recepthantering_API.Data;
+using Recepthantering_API.Models;
 
 namespace Recepthantering_API.Repositories
 {
     public class RecipeRepository : IRecipeRepository
     {
-        private readonly List<Recipe> _recipes = [];
-        private int _nextId = 1;
+        private readonly AppDbContext _context;
 
-        public Task<IEnumerable<Recipe>> GetAllAsync()
-            => Task.FromResult<IEnumerable<Recipe>>(_recipes);
-
-        public Task<Recipe?> GetByIdAsync(int id)
-            => Task.FromResult(_recipes.FirstOrDefault(r => r.Id == id));
-
-        public Task<IEnumerable<Recipe>> SearchAsync(string term)
+        public RecipeRepository(AppDbContext context)
         {
-            var result = _recipes.Where(r =>
-                r.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                r.Description.Contains(term, StringComparison.OrdinalIgnoreCase));
-
-            return Task.FromResult(result);
+            _context = context;
         }
 
-        public Task<IEnumerable<Recipe>> GetByDifficultyAsync(string difficulty)
-        {
-            var result = _recipes.Where(r =>
-                r.Difficulty.Equals(difficulty, StringComparison.OrdinalIgnoreCase));
+        public async Task<IEnumerable<Recipe>> GetAllAsync()
+            => await _context.Recipes.Include(r => r.Ingredients).ToListAsync();
 
-            return Task.FromResult(result);
+        public async Task<Recipe?> GetByIdAsync(int id)
+            => await _context.Recipes.Include(r => r.Ingredients)
+                                     .FirstOrDefaultAsync(r => r.Id == id);
+
+        public async Task<IEnumerable<Recipe>> SearchAsync(string term)
+            => await _context.Recipes.Include(r => r.Ingredients)
+                .Where(r => r.Name.Contains(term) || r.Description.Contains(term))
+                .ToListAsync();
+
+        public async Task<IEnumerable<Recipe>> GetByDifficultyAsync(string difficulty)
+            => await _context.Recipes.Include(r => r.Ingredients)
+                .Where(r => r.Difficulty == difficulty)
+                .ToListAsync();
+
+        public async Task<Recipe> CreateAsync(Recipe recipe)
+        {
+            _context.Recipes.Add(recipe);
+            await _context.SaveChangesAsync();
+            return recipe;
         }
 
-        public Task<Recipe> CreateAsync(Recipe recipe)
+        public async Task<Recipe?> UpdateAsync(int id, Recipe updated)
         {
-            recipe.Id = _nextId++;
-            recipe.CreatedAt = DateTime.UtcNow;
-            _recipes.Add(recipe);
-            return Task.FromResult(recipe);
-        }
-
-        public Task<Recipe?> UpdateAsync(int id, Recipe updated)
-        {
-            var existing = _recipes.FirstOrDefault(r => r.Id == id);
-            if (existing is null)
-                return Task.FromResult<Recipe?>(null);
+            var existing = await _context.Recipes.Include(r => r.Ingredients)
+                                                 .FirstOrDefaultAsync(r => r.Id == id);
+            if (existing is null) return null;
 
             existing.Name = updated.Name;
             existing.Description = updated.Description;
@@ -53,17 +52,18 @@ namespace Recepthantering_API.Repositories
             existing.Ingredients = updated.Ingredients;
             existing.Instructions = updated.Instructions;
 
-            return Task.FromResult<Recipe?>(existing);
+            await _context.SaveChangesAsync();
+            return existing;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var recipe = _recipes.FirstOrDefault(r => r.Id == id);
-            if (recipe is null)
-                return Task.FromResult(false);
+            var recipe = await _context.Recipes.FindAsync(id);
+            if (recipe is null) return false;
 
-            _recipes.Remove(recipe);
-            return Task.FromResult(true);
+            _context.Recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
