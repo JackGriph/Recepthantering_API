@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DTOs\**" />
+    <Content Remove="Models\DTOs\**" />
+    <EmbeddedResource Remove="Models\DTOs\**" />
+    <None Remove="Models\DTOs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -19,10 +26,6 @@
     </PackageReference>
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\DTOs\" />
   </ItemGroup>
 
 </Project>
